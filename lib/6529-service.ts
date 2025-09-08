@@ -72,7 +72,7 @@ export class SixFiveTwoNineService {
   }
 
   private transformSeizeData(seizeData: any[]): MemeCard[] {
-    return seizeData.map((nft: any) => {
+    const transformed: (MemeCard | null)[] = seizeData.map((nft: any) => {
       const tokenId = parseInt(nft.token_id || nft.tokenId || nft.id || '0');
       const season = Math.floor((tokenId - 1) / 100) + 1;
       
@@ -106,6 +106,7 @@ export class SixFiveTwoNineService {
         last_sales: nft.last_sales || nft.lastSales || []
       };
     });
+    return transformed.filter((meme): meme is MemeCard => meme !== null);
   }
 
   private extractArtist(nft: any): string {

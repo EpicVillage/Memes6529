@@ -32,6 +32,7 @@ interface MemeCard {
   name: string;
   artist: string;
   image?: string;
+  thumbnail?: string;
   floor_price?: number;
   total_supply?: number;
   unique_owners?: number;
