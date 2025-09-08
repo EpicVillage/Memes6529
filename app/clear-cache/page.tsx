@@ -24,7 +24,7 @@ export default function ClearCachePage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white flex items-center justify-center p-4">
+    <div className="min-h-screen bg-white dark:bg-gray-900 text-black dark:text-white flex items-center justify-center p-4">
       <Card className="max-w-md w-full">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
@@ -38,7 +38,7 @@ export default function ClearCachePage() {
         <CardContent className="space-y-4">
           {!cleared ? (
             <>
-              <p className="text-sm text-gray-400">
+              <p className="text-sm text-gray-600 dark:text-gray-400">
                 This will clear all cached wallet data. You'll need to re-add your wallets after clearing.
               </p>
               <Button 
@@ -53,7 +53,7 @@ export default function ClearCachePage() {
             <div className="text-center space-y-2">
               <CheckCircle className="h-12 w-12 text-green-500 mx-auto" />
               <p className="text-green-500 font-semibold">Cache Cleared!</p>
-              <p className="text-sm text-gray-400">Redirecting to main app...</p>
+              <p className="text-sm text-gray-600 dark:text-gray-400">Redirecting to main app...</p>
             </div>
           )}
         </CardContent>

@@ -377,7 +377,7 @@ export default function SixFiveTwoNinePage() {
       </Tabs>
 
       {/* Footer */}
-      <div className="mt-12 pt-6 border-t border-gray-800">
+      <div className="mt-12 pt-6 border-t border-gray-200 dark:border-gray-800">
         <div className="text-center text-sm text-muted-foreground">
           Made with ❤️ by{' '}
           <a 
@@ -387,6 +387,15 @@ export default function SixFiveTwoNinePage() {
             className="text-blue-500 hover:text-blue-400 transition-colors"
           >
             EpicVillage
+          </a>
+          {' | '}
+          <a 
+            href="https://github.com/EpicVillage/Memes6529" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="text-blue-500 hover:text-blue-400 transition-colors"
+          >
+            GitHub
           </a>
         </div>
       </div>

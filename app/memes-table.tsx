@@ -149,16 +149,6 @@ export function MemesTable({ memes, isLoading, onRefresh }: MemesTableProps) {
     return `${price.toFixed(4)} ETH`;
   };
 
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-  };
-
-  const getPriceChange = (lastSales?: Array<{ price: number }>) => {
-    if (!lastSales || lastSales.length < 2) return null;
-    const change = ((lastSales[0].price - lastSales[1].price) / lastSales[1].price) * 100;
-    return change;
-  };
 
   return (
     <div className="space-y-4">
@@ -166,7 +156,7 @@ export function MemesTable({ memes, isLoading, onRefresh }: MemesTableProps) {
       <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
         <div className="flex gap-2 flex-1 w-full md:w-auto">
           <div className="relative flex-1 md:max-w-sm">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-500" />
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-500 dark:text-gray-400" />
             <Input
               placeholder="Search by name, artist, or number..."
               value={searchTerm}
@@ -209,13 +199,13 @@ export function MemesTable({ memes, isLoading, onRefresh }: MemesTableProps) {
       </div>
 
       {/* Table */}
-      <div className="rounded-lg border border-gray-700 overflow-hidden">
+      <div className="rounded-lg border border-gray-300 dark:border-gray-700 overflow-hidden">
         <Table>
           <TableCaption>
             Showing {startIndex + 1}-{Math.min(startIndex + itemsPerPage, filteredMemes.length)} of {filteredMemes.length} memes
           </TableCaption>
           <TableHeader>
-            <TableRow className="bg-gray-800 hover:bg-gray-800">
+            <TableRow className="bg-gray-100 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-800">
               <TableHead className="w-16">#</TableHead>
               <TableHead className="w-20">Image</TableHead>
               <TableHead>
@@ -230,41 +220,35 @@ export function MemesTable({ memes, isLoading, onRefresh }: MemesTableProps) {
                 </Button>
               </TableHead>
               <TableHead>Season</TableHead>
-              <TableHead className="text-right">
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => handleSort('floor')}
-                  className="h-auto p-0 font-medium"
-                >
-                  Floor Price
-                  <ArrowUpDown className="ml-2 h-4 w-4" />
-                </Button>
+              <TableHead 
+                className="text-right cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800"
+                onClick={() => handleSort('floor')}
+              >
+                <div className="flex items-center justify-end gap-1">
+                  <span>Floor Price</span>
+                  <ArrowUpDown className="h-4 w-4" />
+                </div>
               </TableHead>
-              <TableHead className="text-right">
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => handleSort('offer')}
-                  className="h-auto p-0 font-medium"
-                >
-                  Highest Offer
-                  <ArrowUpDown className="ml-2 h-4 w-4" />
-                </Button>
+              <TableHead 
+                className="text-right cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800"
+                onClick={() => handleSort('offer')}
+              >
+                <div className="flex items-center justify-end gap-1">
+                  <span>Highest Offer</span>
+                  <ArrowUpDown className="h-4 w-4" />
+                </div>
               </TableHead>
-              <TableHead className="text-center">Last 3 Sales</TableHead>
               <TableHead className="text-center">Supply</TableHead>
               <TableHead>Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {paginatedMemes.map((meme) => {
-              const priceChange = getPriceChange(meme.last_sales);
               const isOwned = ownedMemes.has(meme.id);
               return (
                 <TableRow 
                   key={meme.id} 
-                  className={`hover:bg-gray-800/50 ${isOwned ? 'bg-green-900/20' : ''}`}
+                  className={`hover:bg-gray-100 dark:hover:bg-gray-800/50 ${isOwned ? 'bg-green-100 dark:bg-green-900/20' : ''}`}
                 >
                   <TableCell className="font-medium">
                     #{meme.card_number}
@@ -279,8 +263,8 @@ export function MemesTable({ memes, isLoading, onRefresh }: MemesTableProps) {
                         decoding="async"
                       />
                     ) : (
-                      <div className="w-12 h-12 rounded-lg bg-gray-700 flex items-center justify-center">
-                        <span className="text-xs text-gray-500">#{meme.card_number}</span>
+                      <div className="w-12 h-12 rounded-lg bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
+                        <span className="text-xs text-gray-600 dark:text-gray-500">#{meme.card_number}</span>
                       </div>
                     )}
                   </TableCell>
@@ -289,75 +273,29 @@ export function MemesTable({ memes, isLoading, onRefresh }: MemesTableProps) {
                       <div className="flex items-center gap-2">
                         <p className="font-semibold">{meme.name}</p>
                         {isOwned && (
-                          <Badge variant="outline" className="text-xs bg-green-900/30 border-green-700 text-green-400">
+                          <Badge variant="outline" className="text-xs bg-green-100 dark:bg-green-900/30 border-green-600 dark:border-green-700 text-green-700 dark:text-green-400">
                             Owned
                           </Badge>
                         )}
                       </div>
-                      <p className="text-sm text-gray-500">by {meme.artist}</p>
+                      <p className="text-sm text-gray-600 dark:text-gray-500">by {meme.artist}</p>
                     </div>
                   </TableCell>
                   <TableCell>
                     <Badge variant="outline">S{meme.season}</Badge>
                   </TableCell>
                   <TableCell className="text-right">
-                    <div className="flex items-center justify-end gap-1">
-                      <DollarSign className="h-3 w-3 text-gray-500" />
-                      <span className="font-medium">{formatPrice(meme.floor_price)}</span>
-                    </div>
+                    <span className="font-medium">{formatPrice(meme.floor_price)}</span>
                   </TableCell>
                   <TableCell className="text-right">
-                    <div className="flex items-center justify-end gap-1">
-                      {meme.highest_offer && (
-                        <>
-                          <TrendingUp className="h-3 w-3 text-green-500" />
-                          <span>{formatPrice(meme.highest_offer)}</span>
-                        </>
-                      )}
-                      {!meme.highest_offer && <span className="text-gray-500">-</span>}
-                    </div>
-                  </TableCell>
-                  <TableCell>
-                    <div className="flex items-center justify-center gap-2">
-                      {meme.last_sales && meme.last_sales.length > 0 ? (
-                        <>
-                          <div className="flex flex-col items-end">
-                            {meme.last_sales.slice(0, 3).map((sale, idx) => (
-                              <div key={idx} className="flex items-center gap-1">
-                                <span className="text-xs text-gray-500">
-                                  {formatDate(sale.date)}:
-                                </span>
-                                <span className="text-xs font-medium">
-                                  {sale.price.toFixed(3)}
-                                </span>
-                              </div>
-                            ))}
-                          </div>
-                          {priceChange !== null && (
-                            <div className={`flex items-center ${priceChange >= 0 ? 'text-green-500' : 'text-red-500'}`}>
-                              {priceChange >= 0 ? (
-                                <TrendingUp className="h-3 w-3" />
-                              ) : (
-                                <TrendingDown className="h-3 w-3" />
-                              )}
-                              <span className="text-xs ml-1">
-                                {Math.abs(priceChange).toFixed(1)}%
-                              </span>
-                            </div>
-                          )}
-                        </>
-                      ) : (
-                        <span className="text-gray-500 text-sm">No sales</span>
-                      )}
-                    </div>
+                    {meme.highest_offer ? (
+                      <span className="text-green-500">{formatPrice(meme.highest_offer)}</span>
+                    ) : (
+                      <span className="text-gray-600 dark:text-gray-500">-</span>
+                    )}
                   </TableCell>
                   <TableCell className="text-center">
-                    <div className="text-sm">
-                      <p>{meme.total_supply || '-'}</p>
-                      {meme.unique_owners && (
-                        <p className="text-xs text-gray-500">{meme.unique_owners} owners</p>
-                      )}
-                    </div>
+                    <span className="text-sm">{meme.total_supply || '-'}</span>
                   </TableCell>
                   <TableCell>
                     <div className="flex gap-1">
@@ -387,7 +325,7 @@ export function MemesTable({ memes, isLoading, onRefresh }: MemesTableProps) {
       {/* Pagination */}
       {totalPages > 1 && (
         <div className="flex items-center justify-between">
-          <p className="text-sm text-gray-500">
+          <p className="text-sm text-gray-600 dark:text-gray-500">
             Page {currentPage} of {totalPages}
           </p>
           <div className="flex gap-2">

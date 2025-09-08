@@ -289,7 +289,7 @@ export function WalletTracker({ allMemes, onRefresh }: WalletTrackerProps) {
               </CardHeader>
               <CardContent>
                 <div className="text-3xl font-bold text-green-400">{missingData.ownedFloorValue.toFixed(2)} ETH</div>
-                <p className="text-xs text-gray-400 mt-1">
+                <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">
                   Based on floor prices of {missingData.totalOwned} owned NFTs
                 </p>
               </CardContent>
@@ -302,7 +302,7 @@ export function WalletTracker({ allMemes, onRefresh }: WalletTrackerProps) {
               </CardHeader>
               <CardContent>
                 <div className="text-3xl font-bold text-purple-400">{missingData.ownedOfferValue.toFixed(2)} ETH</div>
-                <p className="text-xs text-gray-400 mt-1">
+                <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">
                   Based on highest offers
                 </p>
               </CardContent>
@@ -321,9 +321,9 @@ export function WalletTracker({ allMemes, onRefresh }: WalletTrackerProps) {
               <CardContent className="space-y-2">
                 {missingData.topByFloor.length > 0 ? (
                   missingData.topByFloor.map((meme, index) => (
-                    <div key={meme.id} className="flex items-center justify-between p-2 bg-gray-800 rounded-lg group hover:bg-gray-750 transition-colors">
+                    <div key={meme.id} className="flex items-center justify-between p-2 bg-gray-100 dark:bg-gray-800 rounded-lg group hover:bg-gray-200 dark:bg-gray-750 transition-colors">
                       <div className="flex items-center gap-3">
-                        <span className="text-xs font-bold text-gray-500 w-4">{index + 1}</span>
+                        <span className="text-xs font-bold text-gray-600 dark:text-gray-500 w-4">{index + 1}</span>
                         {(meme.thumbnail || meme.image) ? (
                           <img 
                             src={meme.thumbnail || meme.image} 
@@ -332,13 +332,13 @@ export function WalletTracker({ allMemes, onRefresh }: WalletTrackerProps) {
                             loading="lazy"
                           />
                         ) : (
-                          <div className="w-8 h-8 rounded bg-gray-700 flex items-center justify-center">
+                          <div className="w-8 h-8 rounded bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
                             <span className="text-xs">#{meme.card_number}</span>
                           </div>
                         )}
                         <div className="flex-1">
                           <p className="text-sm font-medium truncate">#{meme.card_number} {meme.name}</p>
-                          <p className="text-xs text-gray-500">S{meme.season}</p>
+                          <p className="text-xs text-gray-600 dark:text-gray-500">S{meme.season}</p>
                         </div>
                       </div>
                       <div className="flex items-center gap-2">
@@ -355,7 +355,7 @@ export function WalletTracker({ allMemes, onRefresh }: WalletTrackerProps) {
                     </div>
                   ))
                 ) : (
-                  <p className="text-sm text-gray-500">No owned NFTs with floor prices</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-500">No owned NFTs with floor prices</p>
                 )}
               </CardContent>
             </Card>
@@ -370,9 +370,9 @@ export function WalletTracker({ allMemes, onRefresh }: WalletTrackerProps) {
               <CardContent className="space-y-2">
                 {missingData.topByOffer.length > 0 ? (
                   missingData.topByOffer.map((meme, index) => (
-                    <div key={meme.id} className="flex items-center justify-between p-2 bg-gray-800 rounded-lg group hover:bg-gray-750 transition-colors">
+                    <div key={meme.id} className="flex items-center justify-between p-2 bg-gray-100 dark:bg-gray-800 rounded-lg group hover:bg-gray-200 dark:bg-gray-750 transition-colors">
                       <div className="flex items-center gap-3">
-                        <span className="text-xs font-bold text-gray-500 w-4">{index + 1}</span>
+                        <span className="text-xs font-bold text-gray-600 dark:text-gray-500 w-4">{index + 1}</span>
                         {(meme.thumbnail || meme.image) ? (
                           <img 
                             src={meme.thumbnail || meme.image} 
@@ -381,13 +381,13 @@ export function WalletTracker({ allMemes, onRefresh }: WalletTrackerProps) {
                             loading="lazy"
                           />
                         ) : (
-                          <div className="w-8 h-8 rounded bg-gray-700 flex items-center justify-center">
+                          <div className="w-8 h-8 rounded bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
                             <span className="text-xs">#{meme.card_number}</span>
                           </div>
                         )}
                         <div className="flex-1">
                           <p className="text-sm font-medium truncate">#{meme.card_number} {meme.name}</p>
-                          <p className="text-xs text-gray-500">S{meme.season}</p>
+                          <p className="text-xs text-gray-600 dark:text-gray-500">S{meme.season}</p>
                         </div>
                       </div>
                       <div className="flex items-center gap-2">
@@ -404,7 +404,7 @@ export function WalletTracker({ allMemes, onRefresh }: WalletTrackerProps) {
                     </div>
                   ))
                 ) : (
-                  <p className="text-sm text-gray-500">No owned NFTs with offers</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-500">No owned NFTs with offers</p>
                 )}
               </CardContent>
             </Card>
@@ -419,7 +419,7 @@ export function WalletTracker({ allMemes, onRefresh }: WalletTrackerProps) {
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold">{missingData.completionPercentage}%</div>
-                <p className="text-xs text-gray-500">
+                <p className="text-xs text-gray-600 dark:text-gray-500">
                   {missingData.totalOwned} of {allMemes.length} memes
                 </p>
                 {selectedWallets.length > 1 && (
@@ -437,7 +437,7 @@ export function WalletTracker({ allMemes, onRefresh }: WalletTrackerProps) {
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold">{missingData.missingCount}</div>
-                <p className="text-xs text-gray-500">
+                <p className="text-xs text-gray-600 dark:text-gray-500">
                   Need to acquire
                 </p>
               </CardContent>
@@ -450,7 +450,7 @@ export function WalletTracker({ allMemes, onRefresh }: WalletTrackerProps) {
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold">{missingData.totalFloorCost.toFixed(2)} ETH</div>
-                <p className="text-xs text-gray-500">
+                <p className="text-xs text-gray-600 dark:text-gray-500">
                   Floor price total
                 </p>
               </CardContent>
@@ -463,7 +463,7 @@ export function WalletTracker({ allMemes, onRefresh }: WalletTrackerProps) {
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold">{missingData.duplicateCount}</div>
-                <p className="text-xs text-gray-500">
+                <p className="text-xs text-gray-600 dark:text-gray-500">
                   NFTs owned multiple times
                 </p>
               </CardContent>
@@ -481,8 +481,8 @@ export function WalletTracker({ allMemes, onRefresh }: WalletTrackerProps) {
             <CardContent>
               <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
                 {Object.entries(missingData.seasonBreakdown).map(([season, count]) => (
-                  <div key={season} className="text-center p-3 bg-gray-800 rounded-lg">
-                    <p className="text-sm text-gray-500">Season {season}</p>
+                  <div key={season} className="text-center p-3 bg-gray-100 dark:bg-gray-800 rounded-lg">
+                    <p className="text-sm text-gray-600 dark:text-gray-500">Season {season}</p>
                     <p className="text-xl font-bold">{count}</p>
                   </div>
                 ))}
@@ -512,11 +512,11 @@ export function WalletTracker({ allMemes, onRefresh }: WalletTrackerProps) {
                     </Button>
                     <div className="space-y-1">
                       <p className="text-sm">
-                        <span className="text-gray-500">Floor Total:</span>{' '}
+                        <span className="text-gray-600 dark:text-gray-500">Floor Total:</span>{' '}
                         <span className="font-bold text-green-400">{selectedTotals.floor.toFixed(3)} ETH</span>
                       </p>
                       <p className="text-sm">
-                        <span className="text-gray-500">Offer Total:</span>{' '}
+                        <span className="text-gray-600 dark:text-gray-500">Offer Total:</span>{' '}
                         <span className="font-bold text-purple-400">{selectedTotals.offer.toFixed(3)} ETH</span>
                       </p>
                     </div>
@@ -534,7 +534,7 @@ export function WalletTracker({ allMemes, onRefresh }: WalletTrackerProps) {
                       className={`border rounded-lg p-2 transition-colors cursor-pointer group relative ${
                         isSelected 
                           ? 'border-blue-600 bg-blue-900/20' 
-                          : 'border-gray-700 hover:bg-gray-800 hover:border-gray-600'
+                          : 'border-gray-300 dark:border-gray-700 hover:bg-gray-100 dark:bg-gray-800 hover:border-gray-400 dark:border-gray-600'
                       }`}
                       onClick={(e) => handleMissingMemeClick(e, meme)}
                     >
@@ -558,7 +558,7 @@ export function WalletTracker({ allMemes, onRefresh }: WalletTrackerProps) {
                             loading="lazy"
                           />
                         ) : (
-                          <div className="aspect-square bg-gray-700 rounded mb-1 flex items-center justify-center">
+                          <div className="aspect-square bg-gray-200 dark:bg-gray-700 rounded mb-1 flex items-center justify-center">
                             <span className="text-xs">#{meme.card_number}</span>
                           </div>
                         )}
@@ -570,7 +570,7 @@ export function WalletTracker({ allMemes, onRefresh }: WalletTrackerProps) {
                         </div>
                       </div>
                       <p className="text-xs font-semibold truncate">#{meme.card_number}</p>
-                      <p className="text-xs text-gray-500 truncate">{meme.name}</p>
+                      <p className="text-xs text-gray-600 dark:text-gray-500 truncate">{meme.name}</p>
                       {meme.floor_price && (
                         <p className="text-xs font-medium text-green-500">
                           {meme.floor_price.toFixed(3)} ETH
@@ -581,7 +581,7 @@ export function WalletTracker({ allMemes, onRefresh }: WalletTrackerProps) {
                 })}
               </div>
               {missingData.missingCount > 0 && (
-                <p className="text-sm text-gray-500 text-center mt-4">
+                <p className="text-sm text-gray-600 dark:text-gray-500 text-center mt-4">
                   Showing all {missingData.missingCount} missing memes
                 </p>
               )}
@@ -751,7 +751,7 @@ export function WalletManager({ allMemes, onRefresh }: WalletTrackerProps) {
               className={`flex items-center justify-between p-3 rounded-lg border cursor-pointer transition-colors ${
                 selectedWallets.includes(wallet.address)
                   ? 'bg-blue-900/20 border-blue-700' 
-                  : 'bg-gray-800 border-gray-700 hover:bg-gray-750'
+                  : 'bg-gray-100 dark:bg-gray-800 border-gray-300 dark:border-gray-700 hover:bg-gray-200 dark:bg-gray-750'
               }`}
               onClick={() => toggleWalletSelection(wallet.address)}
             >
@@ -759,18 +759,18 @@ export function WalletManager({ allMemes, onRefresh }: WalletTrackerProps) {
                 <div className={`h-4 w-4 rounded border-2 flex items-center justify-center ${
                   selectedWallets.includes(wallet.address)
                     ? 'bg-blue-600 border-blue-600'
-                    : 'border-gray-500'
+                    : 'border-gray-400 dark:border-gray-500'
                 }`}>
                   {selectedWallets.includes(wallet.address) && (
                     <Check className="h-3 w-3 text-white" />
                   )}
                 </div>
-                <Wallet className="h-4 w-4 text-gray-500" />
+                <Wallet className="h-4 w-4 text-gray-600 dark:text-gray-500" />
                 <div>
                   <p className="font-mono text-sm">
                     {wallet.ens || `${wallet.address.slice(0, 6)}...${wallet.address.slice(-4)}`}
                   </p>
-                  <p className="text-xs text-gray-500">
+                  <p className="text-xs text-gray-600 dark:text-gray-500">
                     {wallet.totalOwned} / {allMemes.length} owned
                   </p>
                 </div>
@@ -808,21 +808,21 @@ export function WalletManager({ allMemes, onRefresh }: WalletTrackerProps) {
 
       {/* Combined Stats */}
       {stats && selectedWallets.length > 0 && (
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-2 p-3 bg-gray-800 rounded-lg">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-2 p-3 bg-gray-100 dark:bg-gray-800 rounded-lg">
           <div>
-            <p className="text-xs text-gray-500">Selected Wallets</p>
+            <p className="text-xs text-gray-600 dark:text-gray-500">Selected Wallets</p>
             <p className="text-sm font-semibold">{selectedWallets.length}</p>
           </div>
           <div>
-            <p className="text-xs text-gray-500">Unique NFTs</p>
+            <p className="text-xs text-gray-600 dark:text-gray-500">Unique NFTs</p>
             <p className="text-sm font-semibold">{stats.totalOwned}</p>
           </div>
           <div>
-            <p className="text-xs text-gray-500">Floor Value</p>
+            <p className="text-xs text-gray-600 dark:text-gray-500">Floor Value</p>
             <p className="text-sm font-semibold text-green-500">{stats.floorValue.toFixed(3)} ETH</p>
           </div>
           <div>
-            <p className="text-xs text-gray-500">Offer Value</p>
+            <p className="text-xs text-gray-600 dark:text-gray-500">Offer Value</p>
             <p className="text-sm font-semibold text-blue-500">{stats.offerValue.toFixed(3)} ETH</p>
           </div>
         </div>
@@ -899,7 +899,7 @@ export function WalletSales({ allMemes }: { allMemes: MemeCard[] }) {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <p className="text-gray-500 text-center py-8">
+          <p className="text-gray-600 dark:text-gray-500 text-center py-8">
             No wallets tracked. Add wallets to see potential sales.
           </p>
         </CardContent>
@@ -919,11 +919,11 @@ export function WalletSales({ allMemes }: { allMemes: MemeCard[] }) {
         <div className="space-y-2">
           {isLoading ? (
             <div className="flex items-center justify-center py-8">
-              <RefreshCw className="h-6 w-6 animate-spin text-gray-500" />
+              <RefreshCw className="h-6 w-6 animate-spin text-gray-600 dark:text-gray-500" />
             </div>
           ) : salesData.length > 0 ? (
             <>
-              <div className="grid grid-cols-6 gap-2 px-3 py-2 text-xs font-medium text-gray-500 border-b border-gray-700">
+              <div className="grid grid-cols-6 gap-2 px-3 py-2 text-xs font-medium text-gray-600 dark:text-gray-500 border-b border-gray-300 dark:border-gray-700">
                 <div>Wallet</div>
                 <div>Meme</div>
                 <div className="text-right">Floor</div>
@@ -934,10 +934,10 @@ export function WalletSales({ allMemes }: { allMemes: MemeCard[] }) {
               {salesData.slice(0, 20).map((sale, index) => (
                 <div 
                   key={`${sale.walletAddress}-${sale.memeId}`}
-                  className="grid grid-cols-6 gap-2 p-3 bg-gray-800 rounded-lg hover:bg-gray-750 transition-colors"
+                  className="grid grid-cols-6 gap-2 p-3 bg-gray-100 dark:bg-gray-800 rounded-lg hover:bg-gray-200 dark:bg-gray-750 transition-colors"
                 >
                   <div className="flex items-center">
-                    <Wallet className="h-3 w-3 mr-1 text-gray-500" />
+                    <Wallet className="h-3 w-3 mr-1 text-gray-600 dark:text-gray-500" />
                     <span className="text-sm truncate">{sale.wallet}</span>
                   </div>
                   <div className="text-sm truncate">
@@ -950,14 +950,14 @@ export function WalletSales({ allMemes }: { allMemes: MemeCard[] }) {
                     {sale.highestOffer > 0 ? (
                       <p className="text-sm text-green-500">{formatPrice(sale.highestOffer)}</p>
                     ) : (
-                      <p className="text-sm text-gray-500">-</p>
+                      <p className="text-sm text-gray-600 dark:text-gray-500">-</p>
                     )}
                   </div>
                   <div className="text-right">
                     {sale.potentialProfit > 0 ? (
                       <p className="text-sm text-green-400">+{formatPrice(sale.potentialProfit)}</p>
                     ) : (
-                      <p className="text-sm text-gray-500">-</p>
+                      <p className="text-sm text-gray-600 dark:text-gray-500">-</p>
                     )}
                   </div>
                   <div className="flex justify-center">
@@ -971,13 +971,13 @@ export function WalletSales({ allMemes }: { allMemes: MemeCard[] }) {
                   </div>
                 </div>
               ))}
-              <div className="mt-4 p-3 bg-gray-800 rounded-lg">
+              <div className="mt-4 p-3 bg-gray-100 dark:bg-gray-800 rounded-lg">
                 <div className="flex justify-between items-center">
-                  <span className="text-sm text-gray-400">Total Opportunities</span>
+                  <span className="text-sm text-gray-600 dark:text-gray-400">Total Opportunities</span>
                   <span className="text-sm font-medium">{salesData.length} items</span>
                 </div>
                 <div className="flex justify-between items-center mt-2">
-                  <span className="text-sm text-gray-400">Total Potential Value</span>
+                  <span className="text-sm text-gray-600 dark:text-gray-400">Total Potential Value</span>
                   <span className="text-sm font-medium text-green-500">
                     {formatPrice(salesData.reduce((sum, s) => sum + (s.highestOffer || s.currentFloor), 0))}
                   </span>
@@ -985,7 +985,7 @@ export function WalletSales({ allMemes }: { allMemes: MemeCard[] }) {
               </div>
             </>
           ) : (
-            <p className="text-gray-500 text-center py-8">
+            <p className="text-gray-600 dark:text-gray-500 text-center py-8">
               No sales opportunities found for tracked wallets.
             </p>
           )}

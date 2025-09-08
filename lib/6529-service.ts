@@ -98,7 +98,7 @@ export class SixFiveTwoNineService {
         thumbnail: thumbnailUrl,
         floor_price: parseFloat(nft.floor_price || nft.floorPrice || '0'),
         highest_offer: parseFloat(nft.highest_offer || nft.bestOffer || '0'),
-        total_supply: parseInt(nft.total_supply || nft.totalSupply || '0'),
+        total_supply: parseInt(nft.supply || nft.total_supply || nft.totalSupply || '0'),
         unique_owners: parseInt(nft.unique_owners || nft.uniqueOwners || '0'),
         volume_24h: parseFloat(nft.volume_24h || nft.volume24h || '0'),
         volume_7d: parseFloat(nft.volume_7d || nft.volume7d || '0'),
