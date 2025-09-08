@@ -115,16 +115,79 @@ export default function SixFiveTwoNinePage() {
     fetchDashboardData();
   }, []);
 
-  const fetchDashboardData = async () => {
+  const fetchDashboardData = async (forceRefresh = false) => {
+    // Cache keys for metadata only
+    const METADATA_CACHE_KEY = '6529_memes_metadata';
+    const CACHE_TIMESTAMP_KEY = '6529_memes_cache_time';
+    const CACHE_DURATION = 7 * 24 * 60 * 60 * 1000; // 7 days for metadata
+    
     setIsLoading(true);
     try {
+      // Check if we have cached metadata
+      let cachedMetadata = null;
+      if (!forceRefresh) {
+        const cached = localStorage.getItem(METADATA_CACHE_KEY);
+        const cacheTime = localStorage.getItem(CACHE_TIMESTAMP_KEY);
+        
+        if (cached && cacheTime) {
+          const timeDiff = Date.now() - parseInt(cacheTime);
+          if (timeDiff < CACHE_DURATION) {
+            cachedMetadata = JSON.parse(cached);
+            console.log('Using cached metadata, fetching fresh prices');
+          }
+        }
+      }
+      
+      // Always fetch fresh data for prices and stats
       const response = await fetch('/api/6529');
       const data = await response.json();
       
       if (response.ok) {
-        setMemes(data.memes || []);
+        let memes = data.memes || [];
+        
+        // If we have cached metadata, use it for images/names but keep fresh prices
+        if (cachedMetadata && cachedMetadata.memes) {
+          const metadataMap = new Map(cachedMetadata.memes.map((m: any) => [m.id, m]));
+          memes = memes.map((meme: any) => {
+            const cached = metadataMap.get(meme.id);
+            if (cached) {
+              // Use cached metadata but fresh prices
+              return {
+                ...cached,
+                floor_price: meme.floor_price,
+                highest_offer: meme.highest_offer,
+                volume_24h: meme.volume_24h,
+                volume_7d: meme.volume_7d,
+                listed_count: meme.listed_count,
+                last_sales: meme.last_sales,
+                total_supply: meme.total_supply,
+                unique_owners: meme.unique_owners
+              };
+            }
+            return meme;
+          });
+        }
+        
+        setMemes(memes);
         setStats(data.stats);
         setActivity(data.activity || []);
+        
+        // Cache only metadata (images, names, artists)
+        const metadataToCache = {
+          memes: memes.map((m: any) => ({
+            id: m.id,
+            name: m.name,
+            artist: m.artist,
+            image: m.image,
+            thumbnail: m.thumbnail,
+            season: m.season,
+            card_number: m.card_number
+          }))
+        };
+        
+        localStorage.setItem(METADATA_CACHE_KEY, JSON.stringify(metadataToCache));
+        localStorage.setItem(CACHE_TIMESTAMP_KEY, Date.now().toString());
+        console.log('Metadata cached, prices are fresh');
       } else {
         throw new Error(data.error || 'Failed to fetch data');
       }
@@ -187,15 +250,23 @@ export default function SixFiveTwoNinePage() {
       <div className="p-6 space-y-6">
       {/* Header */}
       <div className="flex justify-between items-center">
-        <div>
-          <h1 className="text-3xl font-bold">6529</h1>
-          <p className="text-muted-foreground">The Memes by 6529</p>
+        <div className="flex items-center gap-4">
+          <img 
+            src="/favicon.png" 
+            alt="6529 Logo" 
+            className="w-12 h-12 object-contain"
+          />
+          <div>
+            <h1 className="text-3xl font-bold">The Memes by 6529</h1>
+            <p className="text-muted-foreground">Collection tracker</p>
+          </div>
         </div>
-        <div className="flex gap-2">
+        <div className="flex items-center gap-2">
           <Button 
-            onClick={fetchDashboardData}
+            onClick={() => fetchDashboardData(true)}
             disabled={isLoading}
             className="bg-blue-600 hover:bg-blue-700 text-white"
+            title="Refresh data"
           >
             <RefreshCw className={`h-4 w-4 mr-2 ${isLoading ? 'animate-spin' : ''}`} />
             Refresh
@@ -304,6 +375,21 @@ export default function SixFiveTwoNinePage() {
         </TabsContent>
 
       </Tabs>
+
+      {/* Footer */}
+      <div className="mt-12 pt-6 border-t border-gray-800">
+        <div className="text-center text-sm text-muted-foreground">
+          Made with ❤️ by{' '}
+          <a 
+            href="https://x.com/Epicvillages" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="text-blue-500 hover:text-blue-400 transition-colors"
+          >
+            EpicVillage
+          </a>
+        </div>
+      </div>
     </div>
   );
 }
