@@ -137,20 +137,12 @@ export function WalletTracker({ allMemes, onRefresh }: WalletTrackerProps) {
       const response = await fetch(`/api/6529/wallet?wallet=${address}`);
       const data = await response.json();
       
-      if (response.ok) {
+      if (response.ok && data.success) {
         return data.ownedMemes || [];
       } else {
         console.error('Error checking wallet:', data.error);
-        // Return mock data as fallback
-        const ownedCount = Math.floor(Math.random() * 100) + 20;
-        const owned: number[] = [];
-        while (owned.length < ownedCount) {
-          const randomId = Math.floor(Math.random() * 403) + 1;
-          if (!owned.includes(randomId)) {
-            owned.push(randomId);
-          }
-        }
-        return owned.sort((a, b) => a - b);
+        // Return empty array instead of mock data
+        return [];
       }
     } catch (error) {
       console.error('Error calling wallet API:', error);
@@ -332,9 +324,9 @@ export function WalletTracker({ allMemes, onRefresh }: WalletTrackerProps) {
                     <div key={meme.id} className="flex items-center justify-between p-2 bg-gray-800 rounded-lg group hover:bg-gray-750 transition-colors">
                       <div className="flex items-center gap-3">
                         <span className="text-xs font-bold text-gray-500 w-4">{index + 1}</span>
-                        {meme.image ? (
+                        {(meme.thumbnail || meme.image) ? (
                           <img 
-                            src={meme.image} 
+                            src={meme.thumbnail || meme.image} 
                             alt={meme.name}
                             className="w-8 h-8 rounded object-cover"
                             loading="lazy"
@@ -381,9 +373,9 @@ export function WalletTracker({ allMemes, onRefresh }: WalletTrackerProps) {
                     <div key={meme.id} className="flex items-center justify-between p-2 bg-gray-800 rounded-lg group hover:bg-gray-750 transition-colors">
                       <div className="flex items-center gap-3">
                         <span className="text-xs font-bold text-gray-500 w-4">{index + 1}</span>
-                        {meme.image ? (
+                        {(meme.thumbnail || meme.image) ? (
                           <img 
-                            src={meme.image} 
+                            src={meme.thumbnail || meme.image} 
                             alt={meme.name}
                             className="w-8 h-8 rounded object-cover"
                             loading="lazy"
@@ -556,9 +548,9 @@ export function WalletTracker({ allMemes, onRefresh }: WalletTrackerProps) {
                       )}
                       
                       <div className="relative">
-                        {meme.image ? (
+                        {(meme.thumbnail || meme.image) ? (
                           <img 
-                            src={meme.image} 
+                            src={meme.thumbnail || meme.image} 
                             alt={meme.name}
                             className={`aspect-square rounded mb-1 object-cover ${
                               isSelected ? 'opacity-90' : 'group-hover:opacity-90'

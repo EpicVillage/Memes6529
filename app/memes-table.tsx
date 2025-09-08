@@ -71,18 +71,23 @@ export function MemesTable({ memes, isLoading, onRefresh }: MemesTableProps) {
       const wallets = localStorage.getItem('6529_wallets');
       const selectedWallets = localStorage.getItem('6529_selected_wallets');
       
-      if (wallets && selectedWallets) {
+      if (wallets) {
         const walletData = JSON.parse(wallets);
-        const selected = JSON.parse(selectedWallets);
+        const selected = selectedWallets ? JSON.parse(selectedWallets) : [];
         
         const owned = new Set<number>();
-        selected.forEach((address: string) => {
+        
+        // If no wallets are selected, use all wallets
+        const walletsToCheck = selected.length > 0 ? selected : walletData.map((w: any) => w.address);
+        
+        walletsToCheck.forEach((address: string) => {
           const wallet = walletData.find((w: any) => w.address === address);
           if (wallet && wallet.ownedMemes) {
             wallet.ownedMemes.forEach((id: number) => owned.add(id));
           }
         });
         
+        console.log(`Loaded ${owned.size} owned NFTs from ${walletsToCheck.length} wallet(s)`);
         setOwnedMemes(owned);
       }
     };
@@ -265,9 +270,9 @@ export function MemesTable({ memes, isLoading, onRefresh }: MemesTableProps) {
                     #{meme.card_number}
                   </TableCell>
                   <TableCell>
-                    {meme.image ? (
+                    {(meme.thumbnail || meme.image) ? (
                       <img
-                        src={meme.image}
+                        src={meme.thumbnail || meme.image}
                         alt={meme.name}
                         className="w-12 h-12 rounded-lg object-cover"
                         loading="lazy"

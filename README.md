@@ -4,29 +4,28 @@ A Next.js application for tracking and analyzing the 6529 NFT collection.
 
 ## API Implementation
 
-The application connects to multiple data sources to fetch 6529 NFT data:
+**Important Note:** The 6529 project does not provide a public API. The official 6529.io website uses private server-side APIs that are not accessible to third-party applications.
 
-### Primary Data Sources
+### Available Data Sources
 
-1. **6529 Official API** (`https://api.6529.io`)
-   - Primary source for meme collection data
-   - Wallet holdings and statistics
-   - Real-time pricing information
+Since there's no official 6529 public API, the application uses:
 
-2. **Seize.io API** (`https://api.seize.io`)
-   - Fallback for collection statistics
-   - NFT metadata and pricing
-   - Market activity data
-
-3. **OpenSea API** (optional, requires API key)
-   - Enhanced wallet tracking
+1. **OpenSea API** (optional, requires API key)
+   - Collection data and NFT metadata
    - Real-time ownership data
-   - Trading history
+   - Trading history and floor prices
+   - Get API key from: https://docs.opensea.io/reference/api-keys
 
-4. **Alchemy API** (optional, requires API key)
+2. **Alchemy API** (optional, requires API key)
    - Alternative source for wallet NFTs
-   - Metadata enrichment
-   - On-chain data verification
+   - Direct blockchain data access
+   - On-chain verification
+   - Get API key from: https://www.alchemy.com/
+
+3. **Sample Data** (default when no API keys)
+   - Mimics the real 6529 Memes collection structure
+   - 100 sample NFTs with realistic metadata
+   - Allows testing without API access
 
 ### API Endpoints
 
@@ -37,14 +36,14 @@ The app exposes the following API routes:
 - `GET /api/6529?action=search&q={query}` - Search memes by name/artist
 - `GET /api/6529/wallet?wallet={address}` - Get wallet holdings
 
-### Data Fallback Strategy
+### Why No Direct 6529 API?
 
-The app implements a multi-tier fallback system:
+The 6529 ecosystem is built as a closed system where:
+- The official website (6529.io) uses private backend APIs
+- Data is rendered server-side and not exposed via public endpoints
+- The community relies on blockchain data and third-party aggregators
 
-1. **Primary**: Real APIs (6529.io, Seize.io)
-2. **Secondary**: Alternative APIs (OpenSea, Alchemy with API keys)
-
-If all APIs fail, the app will return empty data rather than mock data, ensuring users only see real information.
+This is why we use OpenSea/Alchemy APIs - they index the blockchain and provide the same data that 6529.io displays, just through different channels.
 
 ## Setup
 

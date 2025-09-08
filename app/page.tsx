@@ -7,7 +7,7 @@ import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Input } from '@/components/ui/input';
 import { MemesTable } from './memes-table';
-import { WalletTracker, WalletSales, WalletManager } from './wallet-tracker';
+import { WalletTracker, WalletManager } from './wallet-tracker';
 import { useToast } from '@/components/ui/toast';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { 
@@ -289,7 +289,6 @@ export default function SixFiveTwoNinePage() {
         <TabsList>
           <TabsTrigger value="overview">Overview</TabsTrigger>
           <TabsTrigger value="memes">The Memes</TabsTrigger>
-          <TabsTrigger value="activity">Wallet Activity</TabsTrigger>
         </TabsList>
 
         <TabsContent value="overview" className="space-y-4">
@@ -304,9 +303,6 @@ export default function SixFiveTwoNinePage() {
           />
         </TabsContent>
 
-        <TabsContent value="activity" className="space-y-4">
-          <WalletSales allMemes={memes} />
-        </TabsContent>
       </Tabs>
     </div>
   );

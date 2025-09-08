@@ -1,127 +1,20 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { sixFiveTwoNineService } from '@/lib/6529-service';
+import type { MemeCard } from './types';
 
-// 6529 API endpoints
-const API_BASE = 'https://api.6529.io';
-const SEIZE_API = 'https://api.seize.io';
-
-async function fetchMemes() {
-  try {
-    // Try to fetch from the actual 6529 API
-    const response = await fetch(`${API_BASE}/v1/memes`, {
-      headers: {
-        'Accept': 'application/json',
-        'User-Agent': '6529-Tracker/1.0'
-      },
-      next: { revalidate: 300 } // Cache for 5 minutes
-    });
-
-    if (response.ok) {
-      const data = await response.json();
-      return data;
-    }
-  } catch (error) {
-    console.error('Error fetching from 6529 API:', error);
-  }
-
-  // Fallback to Seize.io API
-  try {
-    const response = await fetch(`${SEIZE_API}/api/v1/collections/the-memes-by-6529/nfts`, {
-      headers: {
-        'Accept': 'application/json',
-        'User-Agent': '6529-Tracker/1.0'
-      },
-      next: { revalidate: 300 }
-    });
-
-    if (response.ok) {
-      const data = await response.json();
-      // Transform Seize data to match our format
-      return transformSeizeData(data);
-    }
-  } catch (error) {
-    console.error('Error fetching from Seize API:', error);
-  }
-
-  // If both APIs fail, return empty array
-  return [];
+async function fetchMemes(): Promise<MemeCard[]> {
+  return await sixFiveTwoNineService.fetchMemesCollection();
 }
 
+
 async function fetchCollectionStats() {
-  try {
-    const response = await fetch(`${SEIZE_API}/api/v1/collections/the-memes-by-6529/stats`, {
-      headers: {
-        'Accept': 'application/json',
-        'User-Agent': '6529-Tracker/1.0'
-      },
-      next: { revalidate: 300 }
-    });
-
-    if (response.ok) {
-      const data = await response.json();
-      return {
-        total_memes: data.totalSupply || 403,
-        total_collectors: data.uniqueOwners || 0,
-        total_volume: data.totalVolume || 0,
-        floor_price: data.floorPrice || 0,
-        market_cap: data.marketCap || 0
-      };
-    }
-  } catch (error) {
-    console.error('Error fetching collection stats:', error);
-  }
-
-  // Return default stats if API fails
-  return {
-    total_memes: 403,
-    total_collectors: 0,
-    total_volume: 0,
-    floor_price: 0,
-    market_cap: 0
-  };
+  return await sixFiveTwoNineService.fetchCollectionStats();
 }
 
 async function fetchWalletData(address: string) {
-  try {
-    const response = await fetch(`${API_BASE}/v1/wallets/${address}/memes`, {
-      headers: {
-        'Accept': 'application/json',
-        'User-Agent': '6529-Tracker/1.0'
-      },
-      next: { revalidate: 60 } // Cache for 1 minute
-    });
-
-    if (response.ok) {
-      const data = await response.json();
-      return data;
-    }
-  } catch (error) {
-    console.error('Error fetching wallet data:', error);
-  }
-
-  return null;
+  return await sixFiveTwoNineService.fetchWalletHoldings(address);
 }
 
-function transformSeizeData(seizeData: any) {
-  if (!seizeData || !Array.isArray(seizeData.nfts)) {
-    return [];
-  }
-
-  return seizeData.nfts.map((nft: any) => ({
-    id: nft.tokenId || nft.id,
-    season: Math.floor((nft.tokenId - 1) / 100) + 1,
-    card_number: nft.tokenId,
-    name: nft.name || `Meme #${nft.tokenId}`,
-    artist: nft.attributes?.find((a: any) => a.trait_type === 'Artist')?.value || 'Unknown',
-    image: nft.image || nft.imageUrl,
-    floor_price: nft.floorPrice || 0,
-    highest_offer: nft.bestOffer || 0,
-    total_supply: nft.totalSupply || 0,
-    unique_owners: nft.uniqueOwners || 0,
-    volume_24h: nft.volume24h || 0,
-    volume_7d: nft.volume7d || 0,
-    listed_count: nft.listedCount || 0
-  }));
-}
 
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
