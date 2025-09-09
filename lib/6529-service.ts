@@ -46,7 +46,7 @@ export class SixFiveTwoNineService {
           
           // Use Map to prevent duplicates and filter out nulls
           transformedMemes.forEach(meme => {
-            if (meme && meme.id > 0 && meme.id <= 404) {
+            if (meme && meme.id > 0) {
               memesMap.set(meme.id, meme);
             }
           });
@@ -141,7 +141,7 @@ export class SixFiveTwoNineService {
       if (response.ok) {
         const data = await response.json();
         return {
-          total_memes: 403,
+          total_memes: data.total_supply || data.supply || 404,
           total_collectors: data.num_owners || data.unique_owners || 12000,
           total_volume: parseFloat(data.total_volume || data.volume_all_time || '50000'),
           floor_price: parseFloat(data.floor_price || '0.08'),
@@ -153,7 +153,7 @@ export class SixFiveTwoNineService {
     }
 
     return {
-      total_memes: 403,
+      total_memes: 404,
       total_collectors: 12000,
       total_volume: 50000,
       floor_price: 0.08,
@@ -179,7 +179,7 @@ export class SixFiveTwoNineService {
         if (data.nfts && Array.isArray(data.nfts)) {
           data.nfts.forEach((nft: any) => {
             const tokenId = parseInt(nft.token_id || nft.nft_id || '0');
-            if (tokenId > 0 && tokenId <= 404) {
+            if (tokenId > 0) {
               ownedMemes.push(tokenId);
             }
           });
@@ -206,7 +206,7 @@ export class SixFiveTwoNineService {
           if (data.ownedNfts) {
             data.ownedNfts.forEach((nft: any) => {
               const tokenId = parseInt(nft.tokenId, 16); // Convert from hex
-              if (tokenId > 0 && tokenId <= 404) {
+              if (tokenId > 0) {
                 ownedMemes.push(tokenId);
               }
             });
@@ -318,7 +318,7 @@ export class SixFiveTwoNineService {
     const artists = ["6529er", "Punk6529", "XCOPY", "Grant Yun", "ACK", "Deekay", "Killer Acid"];
     const themes = ["The Memes", "Open Metaverse", "GM", "WAGMI", "Diamond Hands", "Seize", "NFA"];
     
-    for (let i = 1; i <= 403; i++) {
+    for (let i = 1; i <= 404; i++) {
       const season = Math.floor((i - 1) / 100) + 1;
       memes.push({
         id: i,

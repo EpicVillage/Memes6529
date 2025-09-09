@@ -61,9 +61,15 @@ export async function GET(request: NextRequest) {
 
     // Default: return dashboard data
     const stats = await fetchCollectionStats();
+    
+    // Override total_memes with actual count from fetched collection
+    const statsWithDynamicCount = {
+      ...stats,
+      total_memes: memes.length || stats.total_memes
+    };
 
     return NextResponse.json({
-      stats,
+      stats: statsWithDynamicCount,
       memes,
       activity: [], // TODO: Implement real activity fetching from APIs
       success: true

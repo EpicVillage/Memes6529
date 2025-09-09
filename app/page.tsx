@@ -293,7 +293,7 @@ export default function SixFiveTwoNinePage() {
                 <span className="text-sm text-muted-foreground">Memes</span>
               </div>
               <div className="text-lg font-bold">
-                {walletStats ? `${walletStats.ownedCount}/403` : `0/403`}
+                {walletStats ? `${walletStats.ownedCount}/${stats.total_memes}` : `0/${stats.total_memes}`}
               </div>
             </CardContent>
           </Card>
